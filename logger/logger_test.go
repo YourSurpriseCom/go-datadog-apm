@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"testing"
@@ -240,4 +241,52 @@ func TestFatalLogFunction(t *testing.T) {
 	if logEntry.Message != "error text" {
 		t.Errorf("Message incorect, expected '%s' got '%s'", "error text", logEntry.Message)
 	}
+}
+
+// erroringSyncer is a WriteSyncer that always returns an error on Sync
+type erroringSyncer struct{}
+
+func (es *erroringSyncer) Write(p []byte) (n int, err error) {
+	return len(p), nil // Write succeeds
+}
+
+func (es *erroringSyncer) Sync() error {
+	return errors.New("sync error") // Sync always fails
+}
+
+func TestSync(t *testing.T) {
+	t.Run("successful sync", func(t *testing.T) {
+		captureLogger, _ := setupLogsCapture()
+		logger := Logger{
+			internalLoggger: captureLogger,
+		}
+
+		// Should not panic
+		logger.Sync()
+	})
+
+	t.Run("sync error", func(t *testing.T) {
+		// Create a logger with a core that will return an error on sync
+		core := zapcore.NewCore(
+			zapcore.NewJSONEncoder(zapcore.EncoderConfig{}),
+			zapcore.AddSync(&erroringSyncer{}),
+			zapcore.InfoLevel,
+		)
+		logger := Logger{
+			internalLoggger: zap.New(core).Sugar().WithOptions(zap.WithFatalHook(zapcore.WriteThenPanic)),
+		}
+
+		var panicked interface{}
+		func() {
+			defer func() {
+				panicked = recover()
+			}()
+			logger.Sync()
+			t.Error("logger.Sync() did not exit on error")
+		}()
+
+		if panicked == nil {
+			t.Fatal("expected panic on logger.Sync() error")
+		}
+	})
 }
