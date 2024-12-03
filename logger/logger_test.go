@@ -3,6 +3,7 @@ package logger
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	"go.uber.org/zap"
@@ -15,6 +16,70 @@ import (
 func setupLogsCapture() (*zap.SugaredLogger, *observer.ObservedLogs) {
 	core, logs := observer.New(zap.InfoLevel)
 	return zap.New(core).Sugar().WithOptions(zap.WithFatalHook(zapcore.WriteThenPanic)), logs
+}
+
+func TestNewLogger(t *testing.T) {
+	tests := []struct {
+		name          string
+		logLevel      string
+		expectedLevel zapcore.Level
+	}{
+		{
+			name:          "default level when no env var",
+			logLevel:      "",
+			expectedLevel: zapcore.InfoLevel,
+		},
+		{
+			name:          "debug level",
+			logLevel:      "debug",
+			expectedLevel: zapcore.DebugLevel,
+		},
+		{
+			name:          "info level",
+			logLevel:      "info",
+			expectedLevel: zapcore.InfoLevel,
+		},
+		{
+			name:          "warning level",
+			logLevel:      "warning",
+			expectedLevel: zapcore.WarnLevel,
+		},
+		{
+			name:          "fatal level",
+			logLevel:      "fatal",
+			expectedLevel: zapcore.FatalLevel,
+		},
+		{
+			name:          "invalid level defaults to info",
+			logLevel:      "invalid",
+			expectedLevel: zapcore.InfoLevel,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Clear env var before each test
+			os.Unsetenv("LOG_LEVEL")
+			if tt.logLevel != "" {
+				os.Setenv("LOG_LEVEL", tt.logLevel)
+			}
+
+			logger := NewLogger()
+
+			// Test log level
+			if logger.internalLoggger.Desugar().Core().Enabled(tt.expectedLevel) != true {
+				t.Errorf("Expected log level %v to be enabled", tt.expectedLevel)
+			}
+
+			// Test one level above should be disabled (except Fatal which is always highest)
+			if tt.expectedLevel != zapcore.FatalLevel {
+				nextLevel := tt.expectedLevel - 1
+				if logger.internalLoggger.Desugar().Core().Enabled(nextLevel) != false {
+					t.Errorf("Expected log level %v to be disabled", nextLevel)
+				}
+			}
+		})
+	}
 }
 
 func TestLogFunctions(t *testing.T) {
