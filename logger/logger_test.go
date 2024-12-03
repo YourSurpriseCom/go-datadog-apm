@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"go.uber.org/zap"
@@ -120,7 +121,7 @@ func TestLogFunctions(t *testing.T) {
 			logger.Sync()
 
 			for _, logEntry := range logs.All() {
-				if logEntry.Message != tt.msg {
+				if logEntry.Message != fmt.Sprintf(tt.msg, tt.name) {
 					t.Errorf("Message incorect, expected '%s' got '%s'", tt.msg, logEntry.Message)
 				}
 
