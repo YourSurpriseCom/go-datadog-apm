@@ -20,10 +20,15 @@ func TestNewApm(t *testing.T) {
 func TestStartSpanFromContext(t *testing.T) {
 	mt := mocktracer.Start()
 	defer mt.Stop()
+	ctx := context.Background()
 
 	apm := NewApm()
-	span, _ := apm.StartSpanFromContext(context.Background(), "test new span")
+	span, spanContext := apm.StartSpanFromContext(ctx, "test new span")
 	span.Finish()
+
+	if spanContext == ctx {
+		t.Fatal("expected 'spanContext' not to be the same as 'ctx'")
+	}
 
 	spans := mt.FinishedSpans()
 	if len(spans) != 1 {
