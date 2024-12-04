@@ -33,15 +33,6 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.23.x'
-        cache: false
-    - run: go mod tidy
-
     - name: Scan for Vulnerabilities in Code
       uses: golang/govulncheck-action@v1
       with:

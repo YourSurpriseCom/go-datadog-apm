@@ -3,6 +3,7 @@ module github.com/YourSurpriseCom/go-datadog-apm
 go 1.23.3
 
 require (
+	github.com/go-chi/chi/v5 v5.0.10
 	go.uber.org/zap v1.27.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.70.1
 )
@@ -28,7 +29,6 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/eapache/queue/v2 v2.0.0-20230407133247-75960ed334e4 // indirect
 	github.com/ebitengine/purego v0.6.0-alpha.5 // indirect
-	github.com/go-chi/chi/v5 v5.0.10
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
