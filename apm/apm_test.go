@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/YourSurpriseCom/go-datadog-apm/logger"
+	"github.com/go-chi/chi/v5"
+	chitrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/go-chi/chi.v5"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/mocktracer"
 )
 
@@ -65,4 +67,36 @@ func TestSpanFromContext(t *testing.T) {
 			t.Error("retrieved span does not match original span")
 		}
 	})
+}
+
+func TestConfigureOnRouter(t *testing.T) {
+	mt := mocktracer.Start()
+	defer mt.Stop()
+
+	apm := NewApm()
+	router := chi.NewRouter()
+
+	// Configure APM on router
+	apm.ConfigureOnRouter(router)
+
+	// Get the middlewares
+	middlewares := router.Middlewares()
+
+	if len(middlewares) == 0 {
+		t.Fatal("No middleware was added to the router")
+	}
+
+	// Get the last added middleware
+	lastMiddleware := middlewares[len(middlewares)-1]
+
+	// Create a reference middleware for type comparison
+	refMiddleware := chitrace.Middleware()
+
+	// Compare the types
+	actualType := reflect.TypeOf(lastMiddleware)
+	expectedType := reflect.TypeOf(refMiddleware)
+
+	if actualType != expectedType {
+		t.Errorf("Wrong middleware type added. Expected %v, got %v", expectedType, actualType)
+	}
 }
