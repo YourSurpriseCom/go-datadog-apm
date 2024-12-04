@@ -34,5 +34,35 @@ func TestStartSpanFromContext(t *testing.T) {
 	if len(spans) != 1 {
 		t.Fatalf("expected 1 span, got %d", len(spans))
 	}
+}
 
+func TestSpanFromContext(t *testing.T) {
+	mt := mocktracer.Start()
+	defer mt.Stop()
+
+	apm := NewApm()
+
+	t.Run("when no span exists in context", func(t *testing.T) {
+		ctx := context.Background()
+		_, exists := apm.SpanFromContext(ctx)
+
+		if exists {
+			t.Error("expected exists to be false when no span in context")
+		}
+	})
+
+	t.Run("when span exists in context", func(t *testing.T) {
+		ctx := context.Background()
+		originalSpan, spanCtx := apm.StartSpanFromContext(ctx, "test span")
+		defer originalSpan.Finish()
+
+		retrievedSpan, exists := apm.SpanFromContext(spanCtx)
+
+		if !exists {
+			t.Error("expected exists to be true when span exists in context")
+		}
+		if retrievedSpan != originalSpan {
+			t.Error("retrieved span does not match original span")
+		}
+	})
 }
