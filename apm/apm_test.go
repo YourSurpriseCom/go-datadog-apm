@@ -2,12 +2,15 @@ package apm
 
 import (
 	"context"
+	"net/http"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/YourSurpriseCom/go-datadog-apm/logger"
 	"github.com/go-chi/chi/v5"
 	chitrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/go-chi/chi.v5"
+	httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/mocktracer"
 )
 
@@ -98,5 +101,36 @@ func TestConfigureOnRouter(t *testing.T) {
 
 	if actualType != expectedType {
 		t.Errorf("Wrong middleware type added. Expected %v, got %v", expectedType, actualType)
+	}
+}
+
+func TestConfigureOnHttpClient(t *testing.T) {
+	mt := mocktracer.Start()
+	defer mt.Stop()
+
+	apm := NewApm()
+
+	// Create a client with custom settings
+	originalClient := &http.Client{
+		Timeout: 5 * time.Second,
+	}
+
+	// Configure APM on the client
+	apm.ConfigureOnHttpClient(originalClient)
+
+	// Create a reference wrapped client for type comparison
+	refClient := httptrace.WrapClient(&http.Client{})
+
+	// Get the underlying type of the wrapped client
+	wrappedClientType := reflect.TypeOf(refClient).Elem()
+	actualClientType := reflect.TypeOf(*originalClient)
+
+	if actualClientType != wrappedClientType {
+		t.Errorf("Wrong client type after wrapping. Expected %v, got %v", wrappedClientType, actualClientType)
+	}
+
+	// Verify original settings are preserved
+	if originalClient.Timeout != 5*time.Second {
+		t.Errorf("Client settings were not preserved. Expected timeout 5s, got %v", originalClient.Timeout)
 	}
 }
