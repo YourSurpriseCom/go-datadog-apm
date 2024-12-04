@@ -160,7 +160,10 @@ func TestConfigureOnSQLClient(t *testing.T) {
 		t.Fatal("Expected db connection to be created, got nil")
 	}
 
-	db.Ping()
+	err = db.Ping()
+	if err != nil {
+		t.Fatalf("Unexpected error while running db.Ping: %v", err)
+	}
 
 	spans := mt.FinishedSpans()
 	if len(spans) == 2 {
