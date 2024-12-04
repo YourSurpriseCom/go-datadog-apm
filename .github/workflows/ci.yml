@@ -30,6 +30,20 @@ jobs:
         version: latest
         args: --timeout=5m
   
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+          cache: false
+      - run: go mod tidy
+      - run: go test -v ./...
+      
+        
   security:
     runs-on: ubuntu-latest
     steps:
