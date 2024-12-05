@@ -1,0 +1,4 @@
+issues:
+  exclude-rules:
+    - path: logger_test.go
+      text: "SA4006: this value of `logsCollector` is never used"
