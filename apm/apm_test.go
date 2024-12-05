@@ -20,7 +20,7 @@ func TestNewApm(t *testing.T) {
 	apm := NewApm()
 
 	if reflect.TypeOf(apm.Logger) != reflect.TypeOf(logger.Logger{}) {
-		t.Errorf("Logger type incorect, expected '%s' got '%s'", reflect.TypeOf(logger.Logger{}), reflect.TypeOf(apm.Logger))
+		t.Errorf("Logger type incorrect, expected '%s' got '%s'", reflect.TypeOf(logger.Logger{}), reflect.TypeOf(apm.Logger))
 	}
 }
 
