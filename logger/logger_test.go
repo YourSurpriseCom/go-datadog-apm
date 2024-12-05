@@ -239,7 +239,7 @@ func TestFatalLogFunction(t *testing.T) {
 
 	logEntry := logsCollector.All()[0]
 	if logEntry.Message != "error text" {
-		t.Errorf("Message incorect, expected '%s' got '%s'", "error text", logEntry.Message)
+		t.Errorf("Message incorrect, expected '%s' got '%s'", "error text", logEntry.Message)
 	}
 }
 
