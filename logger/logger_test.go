@@ -188,11 +188,11 @@ func TestLogFunctions(t *testing.T) {
 
 			for _, logEntry := range logs.All() {
 				if logEntry.Message != fmt.Sprintf(tt.msg, tt.name) {
-					t.Errorf("Message incorect, expected '%s' got '%s'", tt.msg, logEntry.Message)
+					t.Errorf("Message incorrect, expected '%s' got '%s'", tt.msg, logEntry.Message)
 				}
 
 				if logEntry.Level.String() != tt.logLevel.String() {
-					t.Errorf("Level incorect, expected '%s' got '%s'", tt.logLevel.String(), logEntry.Level.String())
+					t.Errorf("Level incorrect, expected '%s' got '%s'", tt.logLevel.String(), logEntry.Level.String())
 				}
 
 				spans := mt.FinishedSpans()
@@ -202,11 +202,11 @@ func TestLogFunctions(t *testing.T) {
 					}
 
 					if logEntry.ContextMap()["dd.trace_id"] != tt.expectedTraceId {
-						t.Errorf("Message dd.trace_id incorect, expected '%d' got '%d'", tt.expectedTraceId, logEntry.ContextMap()["dd.trace_id"])
+						t.Errorf("Message dd.trace_id incorrect, expected '%d' got '%d'", tt.expectedTraceId, logEntry.ContextMap()["dd.trace_id"])
 					}
 
 					if logEntry.ContextMap()["dd.span_id"] != tt.expectedSpanId {
-						t.Errorf("Message dd.span_id incorect, expected '%d' got '%d'", tt.expectedSpanId, logEntry.ContextMap()["dd.span_id"])
+						t.Errorf("Message dd.span_id incorrect, expected '%d' got '%d'", tt.expectedSpanId, logEntry.ContextMap()["dd.span_id"])
 					}
 				}
 			}
