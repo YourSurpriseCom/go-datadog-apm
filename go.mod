@@ -3,7 +3,7 @@ module github.com/YourSurpriseCom/go-datadog-apm
 go 1.23.3
 
 require (
-	github.com/go-chi/chi/v5 v5.2.0
+	github.com/go-chi/chi/v5 v5.2.1
 	go.uber.org/zap v1.27.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.72.1
 )
