@@ -20,7 +20,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: '1.23.x'
+        go-version: '1.24.x'
         cache: false
     - run: go mod tidy
   
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23.x'
+          go-version: '1.24.x'
           cache: false
       - run: go mod tidy
       - run: go test -v ./...
@@ -50,4 +50,4 @@ jobs:
     - name: Scan for Vulnerabilities in Code
       uses: golang/govulncheck-action@v1
       with:
-        go-version-input: 1.23.x
+        go-version-input: 1.24.x
