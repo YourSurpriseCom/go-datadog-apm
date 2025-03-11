@@ -15,7 +15,7 @@ This package makes it possible to add Datadog spans to your code and connect log
 
 ```Go
 import(
-    github.com/YourSurpriseCom/go-datadog-apm
+    github.com/YourSurpriseCom/go-datadog-apm/apm
 )
 
 apm := apm.NewApm()
