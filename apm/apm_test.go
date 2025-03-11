@@ -19,8 +19,16 @@ import (
 func TestNewApm(t *testing.T) {
 	apm := NewApm()
 
-	if reflect.TypeOf(apm.Logger) != reflect.TypeOf(logger.Logger{}) {
+	if reflect.TypeOf(apm.Logger) != reflect.TypeOf(&logger.Logger{}) {
 		t.Errorf("Logger type incorrect, expected '%s' got '%s'", reflect.TypeOf(logger.Logger{}), reflect.TypeOf(apm.Logger))
+	}
+
+	loggerName := "apm-logger"
+	myLogger := logger.NewLogger(logger.WithName(loggerName))
+	apm = NewApm(WithLogger(myLogger))
+
+	if apm.Logger.Name() != "apm-logger" {
+		t.Errorf("Apm logger name incorrect, expected '%s' got '%s'", loggerName, apm.Logger.Name())
 	}
 }
 

@@ -16,14 +16,36 @@ import (
 )
 
 type Apm struct {
-	Logger logger.Logger
+	Logger *logger.Logger
 }
 
-func NewApm() Apm {
-	logger := logger.NewLogger()
-	return Apm{
-		Logger: logger,
+type ApmOption func(*Apm)
+
+func WithLogger(logger logger.Logger) ApmOption {
+	return func(apm *Apm) {
+		apm.Logger = &logger
 	}
+}
+
+// NewApm creates a new Apm instance with the provided options.
+// Example:
+//
+//	myLogger := &logger.Logger{}
+//	apm := NewApm(WithLogger(myLogger))
+//	apm.Logger.Info(context.Background(), "Hello, world!")
+func NewApm(options ...ApmOption) Apm {
+	apm := Apm{}
+
+	for _, option := range options {
+		option(&apm)
+	}
+
+	if apm.Logger == nil {
+		logger := logger.NewLogger()
+		apm.Logger = &logger
+	}
+
+	return apm
 }
 
 func (apm Apm) StartSpanFromContext(ctx context.Context, name string) (ddtrace.Span, context.Context) {

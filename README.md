@@ -39,6 +39,23 @@ The log level can be configure by setting the environment variable `LOG_LEVEL` w
 
 When not set, it will fall back to the value `info`
 
+Other custom logging options can be set by passing zap configurations to the logger constructor, and passing the custom logger to the apm constructor, like so:
+```Go
+import(
+    github.com/YourSurpriseCom/go-datadog-apm/apm
+    github.com/YourSurpriseCom/go-datadog-apm/logger
+)
+
+var myZapConfig *zap.Config // initialized elsewhere
+
+logger := logger.NewLogger(
+    WithConfig(myZapConfig)
+)
+return apm.NewApm(
+    WithLogger(&logger)
+)
+```
+
 ## Serverless Config
 To use the Serverless Datadog agent, build the application based on the following `Dockerfile`.
 

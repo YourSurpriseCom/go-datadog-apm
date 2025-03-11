@@ -24,6 +24,8 @@ func TestNewLogger(t *testing.T) {
 		name          string
 		logLevel      string
 		expectedLevel zapcore.Level
+		expectedName  string
+		option        []LoggerOption
 	}{
 		{
 			name:          "default level when no env var",
@@ -55,6 +57,20 @@ func TestNewLogger(t *testing.T) {
 			logLevel:      "invalid",
 			expectedLevel: zapcore.InfoLevel,
 		},
+		{
+			name:          "use option to provide custom logger config",
+			expectedLevel: zapcore.WarnLevel,
+			option: []LoggerOption{WithConfig(zap.Config{
+				Level:    zap.NewAtomicLevelAt(zapcore.WarnLevel),
+				Encoding: "console",
+			})},
+		},
+		{
+			name:          "use option to provide logger name",
+			expectedLevel: zapcore.InfoLevel,
+			expectedName:  "my-logger",
+			option:        []LoggerOption{WithName("my-logger")},
+		},
 	}
 
 	for _, tt := range tests {
@@ -65,19 +81,23 @@ func TestNewLogger(t *testing.T) {
 				os.Setenv("LOG_LEVEL", tt.logLevel)
 			}
 
-			logger := NewLogger()
+			logger := NewLogger(tt.option...)
 
 			// Test log level
-			if logger.internalLoggger.Desugar().Core().Enabled(tt.expectedLevel) != true {
+			if logger.internalLogger.Desugar().Core().Enabled(tt.expectedLevel) != true {
 				t.Errorf("Expected log level %v to be enabled", tt.expectedLevel)
 			}
 
 			// Test one level above should be disabled (except Fatal which is always highest)
 			if tt.expectedLevel != zapcore.FatalLevel {
 				nextLevel := tt.expectedLevel - 1
-				if logger.internalLoggger.Desugar().Core().Enabled(nextLevel) != false {
+				if logger.internalLogger.Desugar().Core().Enabled(nextLevel) != false {
 					t.Errorf("Expected log level %v to be disabled", nextLevel)
 				}
+			}
+
+			if logger.Name() != tt.expectedName {
+				t.Errorf("Expected logger name to be '%s', got '%s'", tt.expectedName, logger.Name())
 			}
 		})
 	}
@@ -170,7 +190,7 @@ func TestLogFunctions(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			captureLog, logs := setupLogsCapture()
 			logger := Logger{
-				internalLoggger: captureLog,
+				internalLogger: captureLog,
 			}
 
 			switch tt.logLevel {
@@ -217,7 +237,7 @@ func TestLogFunctions(t *testing.T) {
 func TestFatalLogFunction(t *testing.T) {
 	captureLogger, logsCollector := setupLogsCapture()
 	logger := Logger{
-		internalLoggger: captureLogger,
+		internalLogger: captureLogger,
 	}
 
 	var panicked interface{}
@@ -258,7 +278,7 @@ func TestSync(t *testing.T) {
 	t.Run("successful sync", func(t *testing.T) {
 		captureLogger, _ := setupLogsCapture()
 		logger := Logger{
-			internalLoggger: captureLogger,
+			internalLogger: captureLogger,
 		}
 
 		// Should not panic
@@ -273,7 +293,7 @@ func TestSync(t *testing.T) {
 			zapcore.InfoLevel,
 		)
 		logger := Logger{
-			internalLoggger: zap.New(core).Sugar().WithOptions(zap.WithFatalHook(zapcore.WriteThenPanic)),
+			internalLogger: zap.New(core).Sugar().WithOptions(zap.WithFatalHook(zapcore.WriteThenPanic)),
 		}
 
 		var panicked interface{}
