@@ -21,9 +21,9 @@ type Apm struct {
 
 type ApmOption func(*Apm)
 
-func WithLogger(logger *logger.Logger) ApmOption {
+func WithLogger(logger logger.Logger) ApmOption {
 	return func(apm *Apm) {
-		apm.Logger = logger
+		apm.Logger = &logger
 	}
 }
 

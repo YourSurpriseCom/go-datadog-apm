@@ -12,7 +12,8 @@ import (
 )
 
 type Logger struct {
-	internalLoggger *zap.SugaredLogger
+	name           string
+	internalLogger *zap.SugaredLogger
 }
 
 type LoggerOption func(*Logger)
@@ -24,7 +25,13 @@ func WithConfig(config zap.Config) LoggerOption {
 			fmt.Println("Error building logger", err.Error())
 			panic(err)
 		}
-		l.internalLoggger = zapLogger.Sugar()
+		l.internalLogger = zapLogger.Sugar()
+	}
+}
+
+func WithName(name string) LoggerOption {
+	return func(l *Logger) {
+		l.name = name
 	}
 }
 
@@ -42,8 +49,12 @@ func NewLogger(options ...LoggerOption) Logger {
 		option(&logger)
 	}
 
-	if logger.internalLoggger == nil {
-		logger.internalLoggger = defaultLogger()
+	if logger.internalLogger == nil {
+		logger.internalLogger = defaultLogger()
+	}
+
+	if logger.name != "" {
+		logger.internalLogger = logger.internalLogger.Named(logger.name)
 	}
 
 	return logger
@@ -91,27 +102,27 @@ func defaultLogger() *zap.SugaredLogger {
 func (log Logger) Debug(ctx context.Context, template string, args ...interface{}) {
 	span, ok := tracer.SpanFromContext(ctx)
 	if ok {
-		log.internalLoggger.Debugw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
+		log.internalLogger.Debugw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
 	} else {
-		log.internalLoggger.Debugf(template, args...)
+		log.internalLogger.Debugf(template, args...)
 	}
 }
 
 func (log Logger) Info(ctx context.Context, template string, args ...interface{}) {
 	span, ok := tracer.SpanFromContext(ctx)
 	if ok {
-		log.internalLoggger.Infow(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
+		log.internalLogger.Infow(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
 	} else {
-		log.internalLoggger.Infof(template, args...)
+		log.internalLogger.Infof(template, args...)
 	}
 }
 
 func (log Logger) Warn(ctx context.Context, template string, args ...interface{}) {
 	span, ok := tracer.SpanFromContext(ctx)
 	if ok {
-		log.internalLoggger.Warnw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
+		log.internalLogger.Warnw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
 	} else {
-		log.internalLoggger.Warnf(template, args...)
+		log.internalLogger.Warnf(template, args...)
 	}
 }
 
@@ -119,19 +130,23 @@ func (log Logger) Error(ctx context.Context, template string, args ...interface{
 	span, ok := tracer.SpanFromContext(ctx)
 	if ok {
 		span.SetTag("error", fmt.Errorf(template, args...))
-		log.internalLoggger.Errorw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
+		log.internalLogger.Errorw(fmt.Sprintf(template, args...), "dd.trace_id", span.Context().TraceID(), "dd.span_id", span.Context().SpanID())
 	} else {
-		log.internalLoggger.Errorf(template, args...)
+		log.internalLogger.Errorf(template, args...)
 	}
 }
 
 func (log Logger) Fatal(args ...interface{}) {
-	log.internalLoggger.Fatal(args...)
+	log.internalLogger.Fatal(args...)
 }
 
 func (log Logger) Sync() {
-	err := log.internalLoggger.Sync()
+	err := log.internalLogger.Sync()
 	if err != nil {
 		log.Fatal("unable to sync logs from buffer")
 	}
+}
+
+func (log Logger) Name() string {
+	return log.internalLogger.Desugar().Name()
 }

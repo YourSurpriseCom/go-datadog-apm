@@ -23,11 +23,12 @@ func TestNewApm(t *testing.T) {
 		t.Errorf("Logger type incorrect, expected '%s' got '%s'", reflect.TypeOf(logger.Logger{}), reflect.TypeOf(apm.Logger))
 	}
 
-	myLogger := &logger.Logger{}
+	loggerName := "apm-logger"
+	myLogger := logger.NewLogger(logger.WithName(loggerName))
 	apm = NewApm(WithLogger(myLogger))
 
-	if apm.Logger != myLogger {
-		t.Errorf("Logger instance in apm does not match logger in provided option")
+	if apm.Logger.Name() != "apm-logger" {
+		t.Errorf("Apm logger name incorrect, expected '%s' got '%s'", loggerName, apm.Logger.Name())
 	}
 }
 
