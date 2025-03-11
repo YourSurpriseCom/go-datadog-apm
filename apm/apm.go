@@ -27,6 +27,12 @@ func WithLogger(logger *logger.Logger) ApmOption {
 	}
 }
 
+// NewApm creates a new Apm instance with the provided options.
+// Example:
+//
+//	myLogger := &logger.Logger{}
+//	apm := NewApm(WithLogger(myLogger))
+//	apm.Logger.Info(context.Background(), "Hello, world!")
 func NewApm(options ...ApmOption) Apm {
 	apm := Apm{}
 
