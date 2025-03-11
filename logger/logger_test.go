@@ -83,6 +83,22 @@ func TestNewLogger(t *testing.T) {
 	}
 }
 
+func TestSetLogger(t *testing.T) {
+	captureLog, logs := setupLogsCapture()
+	logger := Logger{}
+	logger.SetLogger(captureLog)
+	logger.Info(context.Background(), "info text")
+	logger.Sync()
+
+	if len(logs.All()) != 1 {
+		t.Fatalf("expected 1 log, got %d", len(logs.All()))
+	}
+	logEntry := logs.All()[0]
+	if logEntry.Message != "info text" {
+		t.Errorf("Message incorrect, expected '%s' got '%s'", "info text", logEntry.Message)
+	}
+}
+
 func TestLogFunctions(t *testing.T) {
 	mt := mocktracer.Start()
 	defer mt.Stop()

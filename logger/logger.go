@@ -15,6 +15,10 @@ type Logger struct {
 	internalLoggger *zap.SugaredLogger
 }
 
+func (log *Logger) SetLogger(internalLogger *zap.SugaredLogger) {
+	log.internalLoggger = internalLogger
+}
+
 func NewLogger() Logger {
 	var logLevel zapcore.Level
 	switch strings.ToLower(os.Getenv("LOG_LEVEL")) {
