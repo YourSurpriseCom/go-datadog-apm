@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/go-chi/chi/v5 v5.2.1
 	go.uber.org/zap v1.27.0
-	gopkg.in/DataDog/dd-trace-go.v1 v1.72.1
+	gopkg.in/DataDog/dd-trace-go.v1 v1.72.2
 )
 
 require (
