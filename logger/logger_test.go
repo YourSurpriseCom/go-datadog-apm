@@ -310,3 +310,21 @@ func TestSync(t *testing.T) {
 		}
 	})
 }
+
+func TestWithConfigError(t *testing.T) {
+	// Create an invalid Zap config that will cause an error
+	invalidConfig := zap.Config{
+		Level:    zap.NewAtomicLevelAt(zapcore.WarnLevel),
+		Encoding: "invalid-encoding", // This will cause an error as it's not a valid encoding
+	}
+
+	// Use defer to recover from the panic
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Expected panic but got none")
+		}
+	}()
+
+	// This should panic
+	WithConfig(invalidConfig)(&Logger{})
+}
