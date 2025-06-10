@@ -76,7 +76,8 @@ func TestSpanFromContext(t *testing.T) {
 		if !exists {
 			t.Error("expected exists to be true when span exists in context")
 		}
-		if retrievedSpan != originalSpan {
+		if retrievedSpan.Context().TraceID() != originalSpan.Context().TraceID() ||
+			retrievedSpan.Context().SpanID() != originalSpan.Context().SpanID() {
 			t.Error("retrieved span does not match original span")
 		}
 	})
