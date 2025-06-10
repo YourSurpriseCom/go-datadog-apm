@@ -111,6 +111,10 @@ func TestLogFunctions(t *testing.T) {
 	span, spanContext := tracer.StartSpanFromContext(ctx, "test.span")
 	span.Finish()
 
+	// Get the actual trace ID and span ID from the span
+	actualTraceID := span.Context().TraceID()
+	actualSpanID := span.Context().SpanID()
+
 	tests := []struct {
 		name            string
 		ctx             context.Context
@@ -126,8 +130,8 @@ func TestLogFunctions(t *testing.T) {
 			ctx:             spanContext,
 			msg:             "debug test message: %s",
 			wantTrace:       true,
-			expectedTraceId: 124,
-			expectedSpanId:  124,
+			expectedTraceId: actualTraceID,
+			expectedSpanId:  actualSpanID,
 		},
 		{
 			name:      "debug without trace context",
@@ -142,8 +146,8 @@ func TestLogFunctions(t *testing.T) {
 			ctx:             spanContext,
 			msg:             "info test message: %s",
 			wantTrace:       true,
-			expectedTraceId: 124,
-			expectedSpanId:  124,
+			expectedTraceId: actualTraceID,
+			expectedSpanId:  actualSpanID,
 		},
 		{
 			name:      "info without trace context",
@@ -158,8 +162,8 @@ func TestLogFunctions(t *testing.T) {
 			ctx:             spanContext,
 			msg:             "warning test message: %s",
 			wantTrace:       true,
-			expectedTraceId: 124,
-			expectedSpanId:  124,
+			expectedTraceId: actualTraceID,
+			expectedSpanId:  actualSpanID,
 		},
 		{
 			name:      "Warning without trace context",
@@ -174,8 +178,8 @@ func TestLogFunctions(t *testing.T) {
 			ctx:             spanContext,
 			msg:             "error test message: %s",
 			wantTrace:       true,
-			expectedTraceId: 124,
-			expectedSpanId:  124,
+			expectedTraceId: actualTraceID,
+			expectedSpanId:  actualSpanID,
 		},
 		{
 			name:      "error without trace context",
@@ -322,6 +326,8 @@ func TestWithConfigError(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error("Expected panic but got none")
+		} else if err, ok := r.(error); !ok || err.Error() != "no encoder registered for name \"invalid-encoding\"" {
+			t.Errorf("Expected error message 'no encoder registered for name \"invalid-encoding\"', got: %v", r)
 		}
 	}()
 
