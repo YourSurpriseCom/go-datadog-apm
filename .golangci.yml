@@ -1,4 +1,23 @@
-issues:
-  exclude-rules:
-    - path: logger_test.go
-      text: "SA4006: this value of `logsCollector` is never used"
+version: "2"
+linters:
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - path: logger/logger_test.go
+        text: 'SA4006: this value of logsCollector is never used'
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
