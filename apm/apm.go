@@ -6,13 +6,12 @@ import (
 	"database/sql/driver"
 	"net/http"
 
+	sqltrace "github.com/DataDog/dd-trace-go/contrib/database/sql/v2"
+	chitrace "github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2"
+	httptrace "github.com/DataDog/dd-trace-go/contrib/net/http/v2"
+	"github.com/DataDog/dd-trace-go/v2/ddtrace/tracer"
 	"github.com/YourSurpriseCom/go-datadog-apm/logger"
 	"github.com/go-chi/chi/v5"
-	sqltrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/database/sql"
-	chitrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/go-chi/chi.v5"
-	httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace"
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 )
 
 type Apm struct {
@@ -48,11 +47,11 @@ func NewApm(options ...ApmOption) Apm {
 	return apm
 }
 
-func (apm Apm) StartSpanFromContext(ctx context.Context, name string) (ddtrace.Span, context.Context) {
+func (apm Apm) StartSpanFromContext(ctx context.Context, name string) (*tracer.Span, context.Context) {
 	return tracer.StartSpanFromContext(ctx, name)
 }
 
-func (apm Apm) SpanFromContext(ctx context.Context) (ddtrace.Span, bool) {
+func (apm Apm) SpanFromContext(ctx context.Context) (*tracer.Span, bool) {
 	return tracer.SpanFromContext(ctx)
 }
 

@@ -3,9 +3,12 @@ module github.com/YourSurpriseCom/go-datadog-apm
 go 1.24
 
 require (
+	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.0.0
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.0.0
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.0.0
+	github.com/DataDog/dd-trace-go/v2 v2.0.0
 	github.com/go-chi/chi/v5 v5.2.1
 	go.uber.org/zap v1.27.0
-	gopkg.in/DataDog/dd-trace-go.v1 v1.74.0
 )
 
 require (
@@ -19,10 +22,6 @@ require (
 	github.com/DataDog/datadog-agent/pkg/util/scrubber v0.64.2 // indirect
 	github.com/DataDog/datadog-agent/pkg/version v0.64.2 // indirect
 	github.com/DataDog/datadog-go/v5 v5.6.0 // indirect
-	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.0.0 // indirect
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.0.0 // indirect
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.0.0 // indirect
-	github.com/DataDog/dd-trace-go/v2 v2.0.0 // indirect
 	github.com/DataDog/go-libddwaf/v3 v3.5.4 // indirect
 	github.com/DataDog/go-runtime-metrics-internal v0.0.4-0.20250319104955-81009b9bad14 // indirect
 	github.com/DataDog/go-sqllexer v0.1.3 // indirect

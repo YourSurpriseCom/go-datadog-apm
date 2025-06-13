@@ -8,12 +8,12 @@ import (
 	"testing"
 	"time"
 
+	sqltrace "github.com/DataDog/dd-trace-go/contrib/database/sql/v2"
+	chitrace "github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2"
+	httptrace "github.com/DataDog/dd-trace-go/contrib/net/http/v2"
+	"github.com/DataDog/dd-trace-go/v2/ddtrace/mocktracer"
 	"github.com/YourSurpriseCom/go-datadog-apm/logger"
 	"github.com/go-chi/chi/v5"
-	sqltrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/database/sql"
-	chitrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/go-chi/chi.v5"
-	httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/mocktracer"
 )
 
 func TestNewApm(t *testing.T) {
@@ -156,7 +156,7 @@ func TestConfigureOnSQLClient(t *testing.T) {
 
 	// Configure SQL client with tracing
 	opts := []sqltrace.Option{
-		sqltrace.WithServiceName("test-service"),
+		sqltrace.WithService("test-service"),
 		sqltrace.WithAnalytics(true),
 	}
 	db, err := apm.ConfigureOnSQLClient(driverName, &mockDriver{}, dataSourceName, opts...)
