@@ -7,11 +7,11 @@ import (
 	"os"
 	"testing"
 
+	"github.com/DataDog/dd-trace-go/v2/ddtrace/mocktracer"
+	"github.com/DataDog/dd-trace-go/v2/ddtrace/tracer"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"go.uber.org/zap/zaptest/observer"
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/mocktracer"
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 )
 
 func setupLogsCapture() (*zap.SugaredLogger, *observer.ObservedLogs) {
@@ -121,7 +121,7 @@ func TestLogFunctions(t *testing.T) {
 		msg             string
 		logLevel        zapcore.Level
 		wantTrace       bool
-		expectedTraceId uint64
+		expectedTraceId string
 		expectedSpanId  uint64
 	}{
 		{
@@ -226,7 +226,7 @@ func TestLogFunctions(t *testing.T) {
 					}
 
 					if logEntry.ContextMap()["dd.trace_id"] != tt.expectedTraceId {
-						t.Errorf("Message dd.trace_id incorrect, expected '%d' got '%d'", tt.expectedTraceId, logEntry.ContextMap()["dd.trace_id"])
+						t.Errorf("Message dd.trace_id incorrect, expected '%s' got '%s'", tt.expectedTraceId, logEntry.ContextMap()["dd.trace_id"])
 					}
 
 					if logEntry.ContextMap()["dd.span_id"] != tt.expectedSpanId {
@@ -239,6 +239,7 @@ func TestLogFunctions(t *testing.T) {
 }
 
 func TestFatalLogFunction(t *testing.T) {
+	//nolint:staticcheck // logsCollector is used but this is shadowed by the log.Fatal call
 	captureLogger, logsCollector := setupLogsCapture()
 	logger := Logger{
 		internalLogger: captureLogger,
@@ -257,11 +258,12 @@ func TestFatalLogFunction(t *testing.T) {
 		t.Fatal("expected panic on logger.Fatal")
 	}
 
-	if len(logsCollector.All()) != 1 {
-		t.Fatalf("expected 1 log, got %d", len(logsCollector.All()))
+	logEntries := logsCollector.All()
+	if len(logEntries) != 1 {
+		t.Fatalf("expected 1 log, got %d", len(logEntries))
 	}
 
-	logEntry := logsCollector.All()[0]
+	logEntry := logEntries[0]
 	if logEntry.Message != "error text" {
 		t.Errorf("Message incorrect, expected '%s' got '%s'", "error text", logEntry.Message)
 	}
