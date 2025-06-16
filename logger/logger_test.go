@@ -239,7 +239,6 @@ func TestLogFunctions(t *testing.T) {
 }
 
 func TestFatalLogFunction(t *testing.T) {
-	//nolint:staticcheck // logsCollector is used but this is shadowed by the log.Fatal call
 	captureLogger, logsCollector := setupLogsCapture()
 	logger := Logger{
 		internalLogger: captureLogger,
