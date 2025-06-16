@@ -69,6 +69,8 @@ func defaultLogger() *zap.SugaredLogger {
 		logLevel = zapcore.InfoLevel
 	case "warning":
 		logLevel = zapcore.WarnLevel
+	case "error":
+		logLevel = zapcore.ErrorLevel
 	case "fatal":
 		logLevel = zapcore.FatalLevel
 	default:
@@ -81,7 +83,7 @@ func defaultLogger() *zap.SugaredLogger {
 		Encoding:    "json",
 		EncoderConfig: zapcore.EncoderConfig{
 			TimeKey:        "time",
-			LevelKey:       "level",
+			LevelKey:       "status",
 			NameKey:        "logger",
 			CallerKey:      "caller",
 			MessageKey:     "msg",
