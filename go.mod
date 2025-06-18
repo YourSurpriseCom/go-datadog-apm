@@ -1,4 +1,4 @@
-module github.com/YourSurpriseCom/go-datadog-apm
+module github.com/YourSurpriseCom/go-datadog-apm/v2
 
 go 1.24
 
