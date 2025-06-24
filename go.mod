@@ -6,7 +6,7 @@ require (
 	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.0.0
 	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.0.0
 	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.0.0
-	github.com/DataDog/dd-trace-go/v2 v2.0.0
+	github.com/DataDog/dd-trace-go/v2 v2.0.1
 	github.com/go-chi/chi/v5 v5.2.2
 	go.uber.org/zap v1.27.0
 )
