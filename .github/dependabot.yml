@@ -8,14 +8,41 @@ updates:
     open-pull-requests-limit: 10
     security-updates-only: true
 
-  # Weekly regular updates (weekends)
+  # Weekly regular updates (weekends) - Minor and Patch updates
   - package-ecosystem: gomod
     directory: /
     schedule:
       interval: weekly
       day: sunday
     open-pull-requests-limit: 10
-    # Exclude security updates
+    # Group minor and patch updates together
+    groups:
+      minor-patch-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
+    # Exclude security updates and major updates
     ignore:
       - dependency-name: "*"
-        update-types: ["security-update"]
+        update-types: ["security-update", "version-update:semver-major"]
+
+  # Weekly regular updates (weekends) - Major updates only
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    open-pull-requests-limit: 10
+    # Group major updates separately
+    groups:
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "version-update:semver-major"
+    # Exclude security updates, minor and patch updates
+    ignore:
+      - dependency-name: "*"
+        update-types: ["security-update", "version-update:semver-minor", "version-update:semver-patch"]
