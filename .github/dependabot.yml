@@ -1,15 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: gomod
-    directory: /
-    target-branch: security-updates
-    schedule:
-      interval: daily
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: "direct"
-        update-type: "security"
-
+  # security updates are handled by dependabot security updates within github
   - package-ecosystem: gomod
     directory: /
     target-branch: minor-patch-updates
@@ -27,21 +18,21 @@ updates:
         update-types: 
           - "version-update:semver-major"
 
-  # - package-ecosystem: gomod
-  #   directory: /
-  #   target-branch: major-updates
-  #   schedule:
-  #     interval: weekly
-  #     day: sunday
-  #   open-pull-requests-limit: 10
-  #   groups:
-  #     major-updates:
-  #       patterns:
-  #         - "*"
-  #       update-types:
-  #         - "major"
-  #   ignore:
-  #     - dependency-name: "*"
-  #       update-types: 
-  #         - "version-update:semver-minor"
-  #         - "version-update:semver-patch"
+  - package-ecosystem: gomod
+    directory: /
+    target-branch: major-updates
+    schedule:
+      interval: weekly
+      day: sunday
+    open-pull-requests-limit: 10
+    groups:
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+    ignore:
+      - dependency-name: "*"
+        update-types: 
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
