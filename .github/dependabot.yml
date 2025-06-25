@@ -21,8 +21,8 @@ updates:
         patterns:
           - "*"
         update-types:
-          - "version-update:semver-minor"
-          - "version-update:semver-patch"
+          - "minor"
+          - "patch"
     # Exclude security updates and major updates
     ignore:
       - dependency-name: "*"
@@ -41,7 +41,7 @@ updates:
         patterns:
           - "*"
         update-types:
-          - "version-update:semver-major"
+          - "major"
     # Exclude security updates, minor and patch updates
     ignore:
       - dependency-name: "*"
