@@ -3,6 +3,7 @@ updates:
   # Daily security updates only
   - package-ecosystem: gomod
     directory: /
+    target-branch: security-updates
     schedule:
       interval: daily
     open-pull-requests-limit: 10
@@ -11,6 +12,7 @@ updates:
   # Weekly regular updates (weekends) - Minor and Patch updates
   - package-ecosystem: gomod
     directory: /
+    target-branch: minor-patch-updates
     schedule:
       interval: weekly
       day: sunday
@@ -31,6 +33,7 @@ updates:
   # Weekly regular updates (weekends) - Major updates only
   - package-ecosystem: gomod
     directory: /
+    target-branch: major-updates
     schedule:
       interval: weekly
       day: sunday
