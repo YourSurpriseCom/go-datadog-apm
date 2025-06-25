@@ -1,6 +1,21 @@
 version: 2
 updates:
+  # Daily security updates only
   - package-ecosystem: gomod
     directory: /
     schedule:
       interval: daily
+    open-pull-requests-limit: 10
+    security-updates-only: true
+
+  # Weekly regular updates (weekends)
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    open-pull-requests-limit: 10
+    # Exclude security updates
+    ignore:
+      - dependency-name: "*"
+        update-types: ["security-update"]
