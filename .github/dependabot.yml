@@ -7,7 +7,10 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
-    security-updates-only: true
+    # Only allow security updates
+    allow:
+      - dependency-type: "direct"
+        update-type: "security"
 
   # Weekly regular updates (weekends) - Minor and Patch updates
   - package-ecosystem: gomod
@@ -25,10 +28,13 @@ updates:
         update-types:
           - "minor"
           - "patch"
-    # Exclude security updates and major updates
+    # Explicitly ignore security and major updates
     ignore:
       - dependency-name: "*"
-        update-types: ["security-update", "version-update:semver-major"]
+        update-types: 
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
 
   # Weekly regular updates (weekends) - Major updates only
   - package-ecosystem: gomod
@@ -44,8 +50,11 @@ updates:
         patterns:
           - "*"
         update-types:
-          - "major"
-    # Exclude security updates, minor and patch updates
+          - "version-update:semver-major"
+    # Explicitly ignore security, minor and patch updates
     ignore:
       - dependency-name: "*"
-        update-types: ["security-update", "version-update:semver-minor", "version-update:semver-patch"]
+        update-types: 
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
