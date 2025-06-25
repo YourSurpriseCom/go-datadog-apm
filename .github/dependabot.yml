@@ -12,25 +12,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-    ignore:
-      - dependency-name: "*"
-        update-types: 
-          - "version-update:semver-major"
-
-  - package-ecosystem: gomod
-    directory: /
-    schedule:
-      interval: weekly
-      day: sunday
-    open-pull-requests-limit: 10
-    groups:
       major-updates:
-        patterns:
-          - "*"
         update-types:
           - "major"
-    ignore:
-      - dependency-name: "*"
-        update-types: 
-          - "version-update:semver-minor"
-          - "version-update:semver-patch"
