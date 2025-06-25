@@ -3,7 +3,6 @@ updates:
   # security updates are handled by dependabot security updates within github
   - package-ecosystem: gomod
     directory: /
-    target-branch: minor-patch-updates
     schedule:
       interval: weekly
       day: sunday
