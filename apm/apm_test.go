@@ -187,6 +187,47 @@ func TestConfigureOnSQLClient(t *testing.T) {
 
 }
 
+func TestConfigureOnSQLXClient(t *testing.T) {
+	mt := mocktracer.Start()
+	defer mt.Stop()
+
+	apm := NewApm()
+	driverName := "mock-sqlx-driver"
+	dataSourceName := "mock-connection-string"
+
+	// Configure SQL client with tracing
+	opts := []sqltrace.Option{
+		sqltrace.WithService("test-service"),
+		sqltrace.WithAnalytics(true),
+	}
+	db, err := apm.ConfigureOnSQLXClient(driverName, &mockDriver{}, dataSourceName, opts...)
+	if err != nil {
+		t.Fatalf("Failed to configure SQL client: %v", err)
+	}
+
+	// Verify db connection was created
+	if db == nil {
+		t.Fatal("Expected db connection to be created, got nil")
+	}
+
+	err = db.Ping()
+	if err != nil {
+		t.Fatalf("Unexpected error while running db.Ping: %v", err)
+	}
+
+	spans := mt.FinishedSpans()
+	if len(spans) == 2 {
+		pingSpan := spans[1]
+		if pingSpan.Tag("sql.query_type") != "Ping" {
+			t.Fatalf("expected span name to be '%s', got '%s'", "Ping", pingSpan.Tag("sql.query_type"))
+		}
+	} else {
+		t.Fatalf("expected 2 spans, got %d", len(spans))
+
+	}
+
+}
+
 // mockDriver implements database/sql/driver.Driver interface
 type mockDriver struct{}
 

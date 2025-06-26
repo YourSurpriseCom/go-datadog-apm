@@ -48,6 +48,11 @@ func TestNewLogger(t *testing.T) {
 			expectedLevel: zapcore.WarnLevel,
 		},
 		{
+			name:          "error level",
+			logLevel:      "error",
+			expectedLevel: zapcore.ErrorLevel,
+		},
+		{
 			name:          "fatal level",
 			logLevel:      "fatal",
 			expectedLevel: zapcore.FatalLevel,
