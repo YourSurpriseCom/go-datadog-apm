@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: tests
     permissions:
-      actions:       read
+      contents: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
