@@ -61,9 +61,10 @@ func (apm Apm) ConfigureOnRouter(router *chi.Mux, opts ...chitrace.Option) {
 	router.Use(chitrace.Middleware(opts...))
 }
 
-func (apm Apm) ConfigureOnHttpClient(client *http.Client, opts ...httptrace.RoundTripperOption) {
+func (apm Apm) ConfigureOnHttpClient(client *http.Client, opts ...httptrace.RoundTripperOption) *http.Client {
 	originalClient := client
 	*client = *httptrace.WrapClient(originalClient, opts...)
+	return client
 }
 
 func (apm Apm) ConfigureOnSQLClient(driverName string, driver driver.Driver, dataSourceName string, opts ...sqltrace.Option) (*sql.DB, error) {
