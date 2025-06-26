@@ -110,9 +110,9 @@ jobs:
         id: verify-changed-files
         run: |
           if git diff --name-only HEAD^ | grep -q "^README.md$"; then
-            echo "files_changed=true" >> $GITHUB_ENV
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "files_changed=false" >> $GITHUB_ENV
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit changes
