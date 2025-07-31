@@ -4,10 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
+	"github.com/go-sql-driver/mysql"
+	"gorm.io/gorm"
+
 	"net/http"
 
 	sqltrace "github.com/DataDog/dd-trace-go/contrib/database/sql/v2"
 	chitrace "github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2"
+	gormtrace "github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2"
 	sqlxtrace "github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2"
 	httptrace "github.com/DataDog/dd-trace-go/contrib/net/http/v2"
 	"github.com/DataDog/dd-trace-go/v2/ddtrace/tracer"
@@ -77,4 +81,10 @@ func (apm Apm) ConfigureOnSQLXClient(driverName string, driver driver.Driver, da
 	sqltrace.Register(driverName, driver, opts...)
 
 	return sqlxtrace.Open(driverName, dataSourceName)
+}
+
+func (apm Apm) ConfigureOnGormMySQLClient(dialector gorm.Dialector, cfg *gorm.Config, opts ...gormtrace.Option) (*gorm.DB, error) {
+	sqltrace.Register("mysql", &mysql.MySQLDriver{})
+
+	return gormtrace.Open(dialector, cfg, opts...)
 }
