@@ -4,10 +4,10 @@ go 1.24
 
 require (
 	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.1.0
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.0.1
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.1.0
 	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.1.0
-	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.0.1
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.0.1
+	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.1.0
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.1.0
 	github.com/DataDog/dd-trace-go/v2 v2.1.0
 	github.com/go-chi/chi/v5 v5.2.2
 	github.com/go-sql-driver/mysql v1.9.3
