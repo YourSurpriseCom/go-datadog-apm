@@ -1,14 +1,14 @@
 module github.com/YourSurpriseCom/go-datadog-apm/v2
 
-go 1.24
+go 1.24.0
 
 require (
-	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.2.3
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.2.3
-	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.2.3
-	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.2.3
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.2.3
-	github.com/DataDog/dd-trace-go/v2 v2.2.3
+	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.3.0
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.3.0
+	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.3.0
+	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.3.0
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.3.0
+	github.com/DataDog/dd-trace-go/v2 v2.3.0
 	github.com/go-chi/chi/v5 v5.2.3
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/jmoiron/sqlx v1.4.0
@@ -18,7 +18,6 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/DataDog/appsec-internal-go v1.13.0 // indirect
 	github.com/DataDog/datadog-agent/comp/core/tagger/origindetection v0.67.0 // indirect
 	github.com/DataDog/datadog-agent/pkg/obfuscate v0.67.0 // indirect
 	github.com/DataDog/datadog-agent/pkg/proto v0.67.0 // indirect
@@ -36,11 +35,11 @@ require (
 	github.com/DataDog/sketches-go v1.4.7 // indirect
 	github.com/Masterminds/semver/v3 v3.3.1 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
+	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/eapache/queue/v2 v2.0.0-20230407133247-75960ed334e4 // indirect
 	github.com/ebitengine/purego v0.8.3 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -66,6 +65,7 @@ require (
 	github.com/secure-systems-lab/go-securesystemslib v0.9.0 // indirect
 	github.com/shirou/gopsutil/v4 v4.25.3 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
+	github.com/theckman/httpforwarded v0.4.0 // indirect
 	github.com/tinylib/msgp v1.2.5 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
