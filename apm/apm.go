@@ -14,6 +14,7 @@ import (
 	gormtrace "github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2"
 	sqlxtrace "github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2"
 	httptrace "github.com/DataDog/dd-trace-go/contrib/net/http/v2"
+	gcptrace "github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2"
 	"github.com/DataDog/dd-trace-go/v2/ddtrace/tracer"
 	"github.com/YourSurpriseCom/go-datadog-apm/v2/logger"
 	"github.com/go-chi/chi/v5"
@@ -69,6 +70,14 @@ func (apm Apm) ConfigureOnHttpClient(client *http.Client, opts ...httptrace.Roun
 	originalClient := client
 	*client = *httptrace.WrapClient(originalClient, opts...)
 	return client
+}
+
+func (apm Apm) ConfigureGoogleCloudClient(opts ...gcptrace.Option) (*http.Client, error) {
+	var defaultScopeOption gcptrace.Option = gcptrace.WithScopes("https://www.googleapis.com/auth/cloud-platform")
+
+	allOptions := append([]gcptrace.Option{defaultScopeOption}, opts...)
+
+	return gcptrace.NewClient(allOptions...)
 }
 
 func (apm Apm) ConfigureOnSQLClient(driverName string, driver driver.Driver, dataSourceName string, opts ...sqltrace.Option) (*sql.DB, error) {
