@@ -3,13 +3,13 @@ module github.com/YourSurpriseCom/go-datadog-apm/v2
 go 1.24.0
 
 require (
-	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.4.0
-	github.com/DataDog/dd-trace-go/v2 v2.4.0
+	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.4.1
+	github.com/DataDog/dd-trace-go/v2 v2.4.1
 	github.com/go-chi/chi/v5 v5.2.3
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/jmoiron/sqlx v1.4.0
