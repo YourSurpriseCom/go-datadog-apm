@@ -10,7 +10,7 @@ require (
 	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.5.0
 	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.5.0
 	github.com/DataDog/dd-trace-go/v2 v2.5.0
-	github.com/go-chi/chi/v5 v5.2.4
+	github.com/go-chi/chi/v5 v5.2.5
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/jmoiron/sqlx v1.4.0
 	go.uber.org/zap v1.27.1
