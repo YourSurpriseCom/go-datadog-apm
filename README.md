@@ -1,4 +1,5 @@
 # Golang Datadog APM package with traces and a connected logger
+![Coverage](https://img.shields.io/badge/Coverage-100.0%25-brightgreen)
 [![Go Report Card](https://goreportcard.com/badge/github.com/YourSurpriseCom/go-datadog-apm)](https://goreportcard.com/report/github.com/YourSurpriseCom/go-datadog-apm) 
 ![workflow ci](https://github.com/YourSurpriseCom/go-datadog-apm/actions/workflows/ci.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
