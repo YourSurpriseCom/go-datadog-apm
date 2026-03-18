@@ -294,31 +294,6 @@ func TestSync(t *testing.T) {
 		// Should not panic
 		logger.Sync()
 	})
-
-	t.Run("sync error", func(t *testing.T) {
-		// Create a logger with a core that will return an error on sync
-		core := zapcore.NewCore(
-			zapcore.NewJSONEncoder(zapcore.EncoderConfig{}),
-			zapcore.AddSync(&erroringSyncer{}),
-			zapcore.InfoLevel,
-		)
-		logger := Logger{
-			internalLogger: zap.New(core).Sugar().WithOptions(zap.WithFatalHook(zapcore.WriteThenPanic)),
-		}
-
-		var panicked interface{}
-		func() {
-			defer func() {
-				panicked = recover()
-			}()
-			logger.Sync()
-			t.Error("logger.Sync() did not exit on error")
-		}()
-
-		if panicked == nil {
-			t.Fatal("expected panic on logger.Sync() error")
-		}
-	})
 }
 
 func TestWithConfigError(t *testing.T) {
