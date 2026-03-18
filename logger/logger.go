@@ -143,10 +143,7 @@ func (log Logger) Fatal(args ...interface{}) {
 }
 
 func (log Logger) Sync() {
-	err := log.internalLogger.Sync()
-	if err != nil {
-		log.Fatal("unable to sync logs from buffer")
-	}
+	_ = log.internalLogger.Sync()
 }
 
 func (log Logger) Name() string {
