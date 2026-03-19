@@ -2,7 +2,6 @@ package logger
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
 	"testing"
@@ -271,17 +270,6 @@ func TestFatalLogFunction(t *testing.T) {
 	if logEntry.Message != "error text" {
 		t.Errorf("Message incorrect, expected '%s' got '%s'", "error text", logEntry.Message)
 	}
-}
-
-// erroringSyncer is a WriteSyncer that always returns an error on Sync
-type erroringSyncer struct{}
-
-func (es *erroringSyncer) Write(p []byte) (n int, err error) {
-	return len(p), nil // Write succeeds
-}
-
-func (es *erroringSyncer) Sync() error {
-	return errors.New("sync error") // Sync always fails
 }
 
 func TestSync(t *testing.T) {
