@@ -3,23 +3,23 @@ module github.com/YourSurpriseCom/go-datadog-apm/v2
 go 1.25.0
 
 require (
-	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.7.3
-	github.com/DataDog/dd-trace-go/v2 v2.7.3
+	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.7.4
+	github.com/DataDog/dd-trace-go/v2 v2.7.4
 	github.com/go-chi/chi/v5 v5.2.5
-	github.com/go-sql-driver/mysql v1.9.3
+	github.com/go-sql-driver/mysql v1.10.0
 	github.com/jmoiron/sqlx v1.4.0
-	go.uber.org/zap v1.27.1
+	go.uber.org/zap v1.28.0
 	gorm.io/gorm v1.31.1
 )
 
 require (
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
-	filippo.io/edwards25519 v1.1.1 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/DataDog/datadog-agent/comp/core/tagger/origindetection v0.77.0 // indirect
 	github.com/DataDog/datadog-agent/pkg/obfuscate v0.77.0 // indirect
 	github.com/DataDog/datadog-agent/pkg/opentelemetry-mapping-go/otlp/attributes v0.77.0 // indirect
