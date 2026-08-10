@@ -16,7 +16,7 @@ check: golangci-lint go-vet unit-tests security-code-scan security-vulnerability
 golangci-lint:
 	@golangci-lint run
 
-.PHONY: go-vat
+.PHONY: go-vet
 go-vet:
 	@go vet ./...
 
