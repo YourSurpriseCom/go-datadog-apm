@@ -11,7 +11,7 @@ require (
 	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.12.0
 	github.com/DataDog/dd-trace-go/v2 v2.12.0
 	github.com/go-chi/chi/v5 v5.5.0
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/jmoiron/sqlx v1.4.0
 	go.uber.org/zap v1.28.0
 	gorm.io/gorm v1.31.2
